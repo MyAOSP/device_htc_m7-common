@@ -62,6 +62,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/calibration:/system/etc/calibration \
     $(LOCAL_PATH)/configs/calibration_EMEA:/system/etc/calibration_EMEA
 
+# Audio config
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
+
 # Sound configs
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/dsp/soundimage/srs_bypass.cfg:system/etc/soundimage/srs_bypass.cfg \
@@ -119,7 +123,17 @@ PRODUCT_PACKAGES += \
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
-    frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml
+    frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml
+
+# NFCEE access control
+ifeq ($(TARGET_BUILD_VARIANT),user)
+    NFCEE_ACCESS_PATH := device/htc/m7-common/configs/nfcee_access.xml
+else
+    NFCEE_ACCESS_PATH := device/htc/m7-common/configs/nfcee_access_debug.xml
+endif
+PRODUCT_COPY_FILES += \
+    $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
 
 # NFCEE access control
 ifeq ($(TARGET_BUILD_VARIANT),user)
